@@ -11,7 +11,34 @@ Usage
 Instructions
 ------------
 
-#. TODO
+.. code:: python
+
+  from probcount import ProbCounter
+  from functools import partial
+
+  pc = ProbCounter()
+
+  def old_increase_function(counter_name, value):
+      # run the real call to the DB increasing the counter
+      # for a redis
+      # redis.Redis().incrby(name=counter_name, amount=value)
+      # or a MongoDB
+      # pymongo.MongoClient().database_name.collection_name.update_one({"_id": counter_name}, {"$inc": {"value": value}})
+      pass
+
+  def old_get_function(counter_name):
+      # run the real call to the DB increasing the counter
+      # for a redis
+      # redis.Redis().get(name=counter_name)
+      # or a MongoDB
+      # pymongo.MongoClient().database_name.collection_name.find_one({"_id": counter_name}, {"value": 1}).value
+      pass
+
+
+  pc.create("name_of_counter", partial(old_increase_function, "name_of_counter"), partial(old_get_function, "name_of_counter"))
+  pc.inc("name_of_counter", 42.0)
+  pc.get("name_of_counter")
+
 
 Supported Python Versions
 =========================
