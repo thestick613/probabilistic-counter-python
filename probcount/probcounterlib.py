@@ -15,7 +15,7 @@ class MockCounter(object):
 class ProbCounter(object):
     def __init__(self, param=0.000195):
         """ Create a Probabilistic Counter object, and initialize it with the
-        desired error rate, which is 1% by default (0.0002).
+        desired error rate, which is 1% by default (0.000195).
         """
 
         self.occurences = {}
@@ -39,7 +39,13 @@ class ProbCounter(object):
         b = 1.0 / (self.param * self.occurences[name] + 1.0)
 
         if random.random() < b:
-            self.actions_inc[name](value/b)
+            returned = self.actions_inc[name](value/b)
+
+            if returned:
+                # if the increase function returns a value, use it to
+                # better approximate the odds of increasing the counter
+                self.occurences[name] = int(returned)
+
             self.inc_ops += 1
 
     def get(self, name):

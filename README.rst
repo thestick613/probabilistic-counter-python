@@ -21,9 +21,11 @@ Instructions
   def old_increase_function(counter_name, value):
       # run the real call to the DB increasing the counter
       # for a redis
-      # redis.Redis().incrby(name=counter_name, amount=value)
+      # return redis.Redis().incrby(name=counter_name, amount=value)
       # or a MongoDB
-      # pymongo.MongoClient().database_name.collection_name.update_one({"_id": counter_name}, {"$inc": {"value": value}})
+      # return (pymongo.MongoClient().database_name.collection_name.find_one_and_update({"_id": counter_name},
+                                                                                        {"$inc": {"value": value}},
+                                                                                        {"value": 1}).get("value", 0) + value)
       pass
 
   def old_get_function(counter_name):
